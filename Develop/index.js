@@ -1,16 +1,19 @@
 // TODO: Include packages needed for this application
 const inquirer = require("inquirer");
+const fs = require('fs');
 const generatePage = require("./package.json");
+const generateMarkdown = require("./utils/generateMarkdown");
+const {writeFile, copyFile} = require('./utils/generateMarkdown');
+const { type } = require("os");
 
 
 // TODO: Create an array of questions for user input
-
 const promptQuestions = () => {
     return inquirer.prompt(
         [
             {
                 type: "input",
-                name: "question",
+                name: "title",
                 message: "What is the title of your project? (Require)",
                 validate: questionInput => {
                     if (questionInput) {
@@ -29,7 +32,7 @@ const promptQuestions = () => {
             },
             {
                 type: "input",
-                name: "question",
+                name: "description",
                 message: "What is the description of your project? (Require)",
                 validate: questionInput => {
                     if (questionInput) {
@@ -42,7 +45,7 @@ const promptQuestions = () => {
             },
             {
                 type: "input",
-                name: "question",
+                name: "installation",
                 message: "What is the installation instruction of your project? (Require)",
                 validate: questionInput => {
                     if (questionInput) {
@@ -54,8 +57,14 @@ const promptQuestions = () => {
                 }
             },
             {
+                type: 'checkbox',
+                name: 'licenses',
+                message: 'What is your project license? (Check all that apply)',
+                choices: ['MIT', 'Apache', 'GPL']
+            },
+            {
                 type: "input",
-                name: "question",
+                name: "usage",
                 message: "What is the usage information of your project? (Require)",
                 validate: questionInput => {
                     if (questionInput) {
@@ -68,7 +77,7 @@ const promptQuestions = () => {
             },
             {
                 type: "input",
-                name: "question",
+                name: "contribution",
                 message: "What is the contribution guidelines of your project? (Require)",
                 validate: questionInput => {
                     if (questionInput) {
@@ -81,7 +90,7 @@ const promptQuestions = () => {
             },
             {
                 type: "input",
-                name: "question",
+                name: "tests",
                 message: "What are your test instructions of your project? (Require)",
                 validate: questionInput => {
                     if (questionInput) {
@@ -94,7 +103,7 @@ const promptQuestions = () => {
             },
             {
                 type: "input",
-                name: "question",
+                name: "GitHub",
                 message: "What is your GitHub username? (Require)",
                 validate: questionInput => {
                     if (questionInput) {
@@ -107,7 +116,7 @@ const promptQuestions = () => {
             },
             {
                 type: "input",
-                name: "question",
+                name: "gmail",
                 message: "What is your email address? (Require)",
                 validate: questionInput => {
                     if (questionInput) {
@@ -123,30 +132,27 @@ const promptQuestions = () => {
 }
 
 // TODO: Create a function to write README file
-/*function writeToFile(fileName, data) {}
-const writeToFile = fileContent => {
-    return new Promise((resolve, reject) => {
-        FileSystem.writeToFile(fileContent, err => {
-            if (err) {
-                reject(err);
-                return;
-            }
-        
-            resolve({
-                ok: true,
-                message: "File created!"
-            });
-        });
-    });
-}*/
+function generateReadMe(data){
+    return `# ${data.title}
+## ${data.description}
+## ${data.installation}
+## ${data.usage}
+## ${data.contribution}
+## ${data.tests}
+${data.licenses}
+`;
+}
 
 // TODO: Create a function to initialize app
-//function init() {}
-
 // Function call to initialize app
-//init();
 
-promptQuestions();
-/*promptQuestions().then((answers) => {
-    console.log('hello wolrd');
-});*/
+promptQuestions().then((answers) =>{
+    //console.log(generateReadMe(answers));
+    fs.writeFile('generated-README.md', generateReadMe(answers), (err) =>
+    {
+        if (err) {
+            console.error(err);
+            return;
+        }
+    });
+});
