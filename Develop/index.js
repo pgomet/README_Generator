@@ -134,11 +134,45 @@ const promptQuestions = () => {
 // TODO: Create a function to write README file
 function generateReadMe(data){
     return `# ${data.title}
-## ${data.description}
-## ${data.installation}
-## ${data.usage}
-## ${data.contribution}
-## ${data.tests}
+## Table-of-Contents
+
+* [Description](#description)
+* [Installation](#installation)
+* [Usage](#usage)
+     
+* [Contribution](#contribution)
+* [Tests](#tests)
+* [Questions](#questions)
+    
+## [Description](#table-of-contents)
+  
+${data.description}
+  
+## [Installation](#table-of-contents)
+  
+${data.installation}
+  
+## [Usage](#table-of-contents)
+  
+${data.usage}
+  
+## [Contribution](#table-of-contents)
+    
+${data.contribution}
+      
+## [Tests](#table-of-contents)
+  
+${data.tests}
+  
+## [Questions](#table-of-contents)
+  
+Please contact me using the following links:
+  
+[GitHub](https://github.com/${data.GitHub})
+  
+[Email: ${data.gmail}](mailto:${data.gmail})
+
+## Licenses
 ${data.licenses}
 `;
 }
